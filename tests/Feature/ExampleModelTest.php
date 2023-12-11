@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Livewire\Livewire;
 use App\Models\ExampleModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Filament\Resources\ExampleModelResource\Pages\EditExampleModel;
@@ -16,10 +17,10 @@ class ExampleModelTest extends TestCase
 
     public function testCanEditResource()
     {
-        $this->actingAs(User::factory()->create());
+        $this->seed();
+        $this->actingAs(User::first());
 
-        $model = ExampleModel::create(['example_json' => fake()->words()]);
-
+        $model = ExampleModel::first();
         $this->assertIsArray($model->example_json);
 
         Livewire::test(EditExampleModel::class, [
